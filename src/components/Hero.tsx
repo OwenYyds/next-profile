@@ -10,8 +10,6 @@ import { useEffect } from "react";
 import Image from "next/image";
 
 import img from "../assets/profilepic.png";
-import { FiArrowRight } from "react-icons/fi";
-import AnimationButton from "./AnimationButton";
 
 const COLORS_TOP = ["#13FFAA", "#1E67C6", "#CE84CF", "#DD335C"];
 
@@ -53,8 +51,6 @@ function Hero() {
         <p className="my-6 max-w-xl text-center">
           Fullstack Developer based in Shanghai, with 3 years of experience
         </p>
-
-        {/* <AnimationButton name="Download my resume" icon={FiArrowRight} /> */}
       </div>
 
       <div className="bg-circle-container">
