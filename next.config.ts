@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
           chunks: "all",
           maxInitialRequests: 25,
           minSize: 20000,
-          maxSize: 20 * 1024 * 1024, // 20MB chunks
+          maxSize: 15 * 1024 * 1024, // 15MB chunks
           cacheGroups: {
             default: false,
             vendors: false,
@@ -17,16 +17,22 @@ const nextConfig: NextConfig = {
               name: "commons",
               chunks: "all",
               minChunks: 2,
+              reuseExistingChunk: true,
             },
             lib: {
               test: /[\\/]node_modules[\\/]/,
               chunks: "all",
+              priority: 1,
+              reuseExistingChunk: true,
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               name(module: any) {
+                if (!module.context) return "vendors";
                 const packageName = module.context.match(
                   /[\\/]node_modules[\\/](.*?)([\\/]|$)/
-                )[1];
-                return `npm.${packageName.replace("@", "")}`;
+                );
+                return packageName
+                  ? `npm.${packageName[1].replace("@", "")}`
+                  : "vendors";
               },
             },
           },
@@ -37,6 +43,12 @@ const nextConfig: NextConfig = {
   },
   output: "standalone",
   compress: true,
+  poweredByHeader: false,
+  reactStrictMode: true,
+  // Disable image optimization if not needed
+  images: {
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
